@@ -1,0 +1,9 @@
+{
+"data":
+[
+{"Id":1001,"FullName":"User 1aaaa","UserName":"user1001","Password":"P@$$w0rd1001","Email":"user1001@crud.mk","RegisteredAt":"\/Date(1619507374234)\/","Comment":"..."},
+{"Id":1002,"FullName":"User 2aaaa","UserName":"user1002","Password":"P@$$w0rd1002","Email":"user1002@crud.mk","RegisteredAt":"\/Date(1619507374234)\/","Comment":"..."},
+{"Id":1003,"FullName":"User 3aaaa","UserName":"user1003","Password":"P@$$w0rd1003","Email":"user1003@crud.mk","RegisteredAt":"\/Date(1619507374234)\/","Comment":"..."},
+{"Id":1004,"FullName":"User 4aaaa","UserName":"user1004","Password":"P@$$w0rd1004","Email":"user1004@crud.mk","RegisteredAt":"\/Date(1619507374234)\/","Comment":"..."}
+]
+}

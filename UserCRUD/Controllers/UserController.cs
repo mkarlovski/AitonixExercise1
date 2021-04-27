@@ -97,42 +97,49 @@ namespace UserCRUD.Controllers
             return Json(jResponse, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult InsertUser(Models.User User)
+        
+        public ActionResult InsertUser( Models.User User)
         {
             App_Helpers.JsonResponse jResponse = new App_Helpers.JsonResponse();
 
-            List<Models.User> UserList = new List<Models.User>();
-            if (Session["UserList"] != null) UserList = (List<Models.User>)Session["UserList"];
-
-            Models.User _User = UserList.FirstOrDefault(x => x.Id == User.Id);
-
-            if (_User == null)
+            if (ModelState.IsValid) 
             {
-                _User = new Models.User();
-                _User.Id = UserList.LastOrDefault().Id + 1;
-                _User.FullName = User.FullName;
-                _User.UserName = User.UserName;
-                _User.Password = User.Password;
-                _User.Email = User.Email;
-                _User.RegisteredAt = DateTime.Now;
-                _User.Comment = User.Comment;
+                List<Models.User> UserList = new List<Models.User>();
+                if (Session["UserList"] != null) UserList = (List<Models.User>)Session["UserList"];
 
-                UserList.Add(_User);
-                Session["UserList"] = UserList;
+                Models.User _User = UserList.FirstOrDefault(x => x.Id == User.Id);
 
-                jResponse.status = true;
-                jResponse.message = "OK";
+                if (_User == null)
+                {
+                    _User = new Models.User();
+                    _User.Id = UserList.LastOrDefault().Id + 1;
+                    _User.FullName = User.FullName;
+                    _User.UserName = User.UserName;
+                    _User.Password = User.Password;
+                    _User.Email = User.Email;
+                    _User.RegisteredAt = DateTime.Now;
+                    _User.Comment = User.Comment;
+
+                    UserList.Add(_User);
+                    Session["UserList"] = UserList;
+
+                    jResponse.status = true;
+                    jResponse.message = "OK";
+                }
+                else
+                {
+                    _User = new Models.User();
+                    jResponse.status = false;
+                    jResponse.message = "Error on insert";
+                }
+
+                jResponse.data = _User;
+
+                
             }
-            else
-            {
-                _User = new Models.User();
-                jResponse.status = false;
-                jResponse.message = "Error on insert";
-            }
-
-            jResponse.data = _User;
-
             return Json(jResponse, JsonRequestBehavior.AllowGet);
+
+
         }
 
         public ActionResult UpdateUser(Models.User User)
