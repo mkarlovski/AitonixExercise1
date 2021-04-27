@@ -97,8 +97,8 @@ namespace UserCRUD.Controllers
             return Json(jResponse, JsonRequestBehavior.AllowGet);
         }
 
-        
-        public ActionResult InsertUser( Models.User User)
+        [HttpPost]
+        public ActionResult InsertUser(Models.User User)
         {
             App_Helpers.JsonResponse jResponse = new App_Helpers.JsonResponse();
 
@@ -137,9 +137,7 @@ namespace UserCRUD.Controllers
 
                 
             }
-            return Json(jResponse, JsonRequestBehavior.AllowGet);
-
-
+            return RedirectToAction("Index");
         }
 
         public ActionResult UpdateUser(Models.User User)

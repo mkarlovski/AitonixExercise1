@@ -23,23 +23,37 @@ const app = {
         var email = document.getElementById("email").value;
         var comment = document.getElementById("comment").value;
 
-        axios.post('https://localhost:44327/User/InsertUser', {
-            
-            fullname: name,
-            username: username,
-            password: password,
-            email: email,
-            comment: comment
+        const options = {
+            headers: { "Content-Type": "multipart/form-data" },
+        };
+
+        var data = {
+            Id: 0,
+            FullName: name,
+            UserName: username,
+            Password: password,
+            Email: email,
+            Comment: comment
+        }
+
+        const formData = new FormData();
+        formData.append('Id', 0);
+        formData.append('FullName', name);
+        formData.append('UserName', username);
+        formData.append('Password', password);
+        formData.append('Email', email);
+        formData.append('Comment', comment);
+
+        axios.post('https://localhost:44327/User/InsertUser', formData,
+        options)
+        .then(function (response) {
+            console.log(response.data);
+            alert(`User Added`)
+
         })
-            .then(function (response) {
-                console.log(response.data);
-                alert(`User Added`)
+        .catch(function (error) {
 
-
-            })
-            .catch(function (error) {
-
-            });
+        });
     },
     addRow(dataTable, data) {
         const addedRow = dataTable.row.add(data).draw();
@@ -61,34 +75,35 @@ const app = {
         dataTable.row('.selected').remove().draw(false);
     },
     start() {
-        var datasetArray = [];              //zosto koga povrzuvam array ne raboti a vaka raboti
-        
-            axios.get('https://localhost:44327/User/GetUserList')
-                .then(function (response) {
+        var datasetArray = []              //zosto koga povrzuvam array ne raboti a vaka raboti
+        var that = this;
+        axios.get('https://localhost:44327/User/GetUserList')
+            .then(function (response) {
 
-                    response.data.data.forEach(user => {
-                        var userData = [];
-                        var userID = user.Id.toString();
-                        userData.push(userID);
-                        userData.push(user.FullName);
-                        userData.push(user.UserName);
-                        userData.push(user.Password);
-                        userData.push(user.Email);
-                        userData.push(user.Comment);
-                        datasetArray.push(userData);
+                response.data.data.forEach(user => {
+                    var userData = [];
+                    var userID = user.Id.toString();
+                    userData.push(userID);
+                    userData.push(user.FullName);
+                    userData.push(user.UserName);
+                    userData.push(user.Password);
+                    userData.push(user.Email);
+                    userData.push(user.Comment);
+                    datasetArray.push(userData);
 
-                    });
-                    console.log(datasetArray);
-
-                })
-                .catch(function (error) {
-                    console.log(error);
                 });
-            console.log(datasetArray);
-        
+
+                that.initDataTable(datasetArray)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }, 
+    initDataTable(dataSet) {
         const dataTable = $('#realtime').DataTable({
-            
-            data: datasetArray,
+
+            data: dataSet,
             columns: [
                 { title: 'Id' },
                 { title: 'FullName' },
@@ -105,9 +120,8 @@ const app = {
             self.selectRow.bind(this, dataTable)();
         });
         $('#remove').on('click', this.removeRow.bind(this, dataTable));
-
-        
     }
+    
 };
 
 $(document).ready(() => app.start());

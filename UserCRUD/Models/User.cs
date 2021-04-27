@@ -7,12 +7,13 @@ namespace UserCRUD.Models
 {
     public class User
     {
-        public long Id;
-        public string FullName;
-        public string UserName;
-        public string Password;
-        public string Email;
-        public DateTime RegisteredAt;
-        public string Comment;
+        public long Id { get; set; }
+        public string FullName { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public DateTime RegisteredAt { get; set; }
+        public string Comment { get; set; }
+
     }
 }

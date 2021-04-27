@@ -21,31 +21,31 @@
     </div>
     <div class="col-md-4 col-md-offset-1">
         <h3 class="text-left">Create New User</h3>
-        <form asp-controller="User" asp-action="InsertUser" method="post">
+        @*<form action="/User/InsertUser" method="post">*@
             <div class="form-group">
                 <label for="fullName"> FullName</label>
-                <input type="text" name="fullname" id="fullname" placeholder="FullName" class="form-control">
+                <input type="text" name="FullName" id="fullname" placeholder="FullName" class="form-control">
             </div>
             <div class="form-group">
                 <label for="userName"> UserName</label>
-                <input type="text" name="userName" id="userName" placeholder="UserName" class="form-control">
+                <input type="text" name="UserName" id="userName" placeholder="UserName" class="form-control">
             </div>
             <div class="form-group">
                 <label for="password"> Password</label>
-                <input type="text" name="password" id="password" placeholder="Password" class="form-control">
+                <input type="text" name="Password" id="password" placeholder="Password" class="form-control">
             </div>
             <div class="form-group">
                 <label for="email"> Email</label>
-                <input type="text" name="email" id="email" placeholder="Email" class="form-control">
+                <input type="text" name="Email" id="email" placeholder="Email" class="form-control">
             </div>
             <div class="form-group">
                 <label for="comment"> Comment</label>
-                <input type="text" name="comment" id="comment" placeholder="Comment" class="form-control">
+                <input type="text" name="Comment" id="comment" placeholder="Comment" class="form-control">
             </div>
             <div class="form-group">
                 <button class="btn btn-info" id="add">Add</button>
             </div>
-            </form>
+        @*</form>*@
     </div>
 </div>
 

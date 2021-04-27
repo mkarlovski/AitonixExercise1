@@ -6,20 +6,12 @@ var datasetArray = [];
 function GetAllData() {
     axios.get('https://localhost:44327/User/GetUserList')
         .then(function (response) {
-           
+            
             response.data.data.forEach(user => {
-                var userData = [];
-                var userID=user.Id.toString();
-                userData.push(userID);
-                userData.push(user.FullName);
-                userData.push(user.UserName);
-                userData.push(user.Password);
-                userData.push(user.Email);
-                userData.push(user.Comment);
-                datasetArray.push(userData);
-                
+                datasetArray.push(user);
+                console.log(datasetArray);
             });
-            console.log(datasetArray);
+            window.dataSet = datasetArray;
            
         })
         .catch(function (error) {
@@ -31,7 +23,7 @@ console.log(datasetArray);
 
 GetAllData();
 
-window.dataSet = datasetArray;
+
 
 //window.dataSet = [
 //    [ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800" ],
