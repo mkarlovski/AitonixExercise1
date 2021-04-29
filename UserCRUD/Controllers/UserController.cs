@@ -137,7 +137,8 @@ namespace UserCRUD.Controllers
 
                 
             }
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return Json(jResponse, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult UpdateUser(Models.User User)

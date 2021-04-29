@@ -23,12 +23,12 @@ const app = {
         var email = document.getElementById("email").value;
         var comment = document.getElementById("comment").value;
 
-        const options = {
-            headers: { "Content-Type": "multipart/form-data" },
-        };
-
+        //const options = {
+        //    headers: { "Content-Type": "multipart/form-data" },
+        //};
+        var that = this;
         var data = {
-            Id: 0,
+            //Id: 0,
             FullName: name,
             UserName: username,
             Password: password,
@@ -36,24 +36,25 @@ const app = {
             Comment: comment
         }
 
-        const formData = new FormData();
-        formData.append('Id', 0);
-        formData.append('FullName', name);
-        formData.append('UserName', username);
-        formData.append('Password', password);
-        formData.append('Email', email);
-        formData.append('Comment', comment);
+        //const formData = new FormData();
+        //formData.append('Id', 0);
+        //formData.append('FullName', name);
+        //formData.append('UserName', username);
+        //formData.append('Password', password);
+        //formData.append('Email', email);
+        //formData.append('Comment', comment);
 
-        axios.post('https://localhost:44327/User/InsertUser', formData,
-        options)
+        axios.post('https://localhost:44327/User/InsertUser', data)
         .then(function (response) {
-            console.log(response.data);
-            alert(`User Added`)
-
+            console.log(response.data);           
+            //alert(`User Added`)
+            var insert = prompt("would you like to add user");  ///ova treba da odi pred axios post
         })
         .catch(function (error) {
-
         });
+
+        
+        //app.start();
     },
     addRow(dataTable, data) {
         const addedRow = dataTable.row.add(data).draw();
@@ -66,16 +67,37 @@ const app = {
     selectRow(dataTable) {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
+            $('#remove').attr("disabled", true);
         } else {
             dataTable.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
+            $('#remove').removeAttr("disabled");
         }
     },
-    removeRow(dataTable) {
+    removeRow(dataTable,userId) {
         dataTable.row('.selected').remove().draw(false);
+
+
+        var userId = parseFloat(userId);
+       
+        
+        axios.delete('https://localhost:44327/User/DeleteUser', {
+            params: {
+                Id:userId
+            }
+        })
+            .then(function (response) {
+                console.log(response.data);
+                //alert(`User Added`)
+               
+            })
+            .catch(function (error) {
+            });
+       
+        
     },
     start() {
-        var datasetArray = []              //zosto koga povrzuvam array ne raboti a vaka raboti
+        var datasetArray = []              
         var that = this;
         axios.get('https://localhost:44327/User/GetUserList')
             .then(function (response) {
@@ -98,11 +120,11 @@ const app = {
             .catch(function (error) {
                 console.log(error);
             });
-
+        //that.initDataTable(datasetArray)
     }, 
     initDataTable(dataSet) {
-        const dataTable = $('#realtime').DataTable({
-
+        const dataTable = $('#realtime').DataTable({    
+            
             data: dataSet,
             columns: [
                 { title: 'Id' },
@@ -113,15 +135,34 @@ const app = {
                 { title: 'Comment' }
             ]
         });
+        
 
         $('#add').on('click', this.sendToServer.bind(this));
         const self = this;
-        $('#realtime tbody').on('click', 'tr', function () {
+        $('#realtime tbody').on('click', 'tr', function (e) {
+            e.preventDefault();
             self.selectRow.bind(this, dataTable)();
+            var rowIndex = $(this).find('td:eq(0)').text();
+            alert(rowIndex);
+            $('#remove').on('click', self.removeRow.bind(this, dataTable,rowIndex)); 
+
         });
-        $('#remove').on('click', this.removeRow.bind(this, dataTable));
+        //$('#remove').on('click', this.removeRow.bind(this, dataTable));    //ova e funkcionalno  NE BRISI
+    ////$('#remove').on('click', 'tr', function (e) {
+    ////    var userId = $(this).find('td:eq(0)').text();
+    ////    alert(rowIndex);
+    ////    this.removeRow.bind(this, dataTable, userId)
+    ////    alert(rowIndex);
+    //}
+    //    );
+
     }
     
 };
+
+
+//function GetAllUsers() {
+
+//}
 
 $(document).ready(() => app.start());
