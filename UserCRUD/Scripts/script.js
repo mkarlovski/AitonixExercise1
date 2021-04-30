@@ -75,21 +75,24 @@ const app = {
         }
     },
     removeRow(dataTable,userId) {
-        dataTable.row('.selected').remove().draw(false);
+        //dataTable.row('.selected').remove().draw(false);
 
 
         var userId = parseFloat(userId);
        
         
-        axios.delete('https://localhost:44327/User/DeleteUser', {
-            params: {
-                Id:userId
-            }
-        })
+        axios.post('https://localhost:44327/User/DeleteUser/' + userId
+        //    , {
+        //    params: {
+        //        Id: userId
+        //    }
+        //}
+            
+        )
             .then(function (response) {
                 console.log(response.data);
                 //alert(`User Added`)
-               
+                dataTable.row('.selected').remove().draw(false);
             })
             .catch(function (error) {
             });

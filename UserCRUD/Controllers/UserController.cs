@@ -175,6 +175,7 @@ namespace UserCRUD.Controllers
             return Json(jResponse, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public ActionResult DeleteUser(long Id)
         {
             App_Helpers.JsonResponse jResponse = new App_Helpers.JsonResponse();
