@@ -151,7 +151,7 @@ namespace UserCRUD.Controllers
             return Json(jResponse, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPut]
+        [HttpPost]
         public ActionResult UpdateUser(Models.User User)
         {
             App_Helpers.JsonResponse jResponse = new App_Helpers.JsonResponse();

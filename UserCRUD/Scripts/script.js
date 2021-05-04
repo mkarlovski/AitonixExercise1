@@ -7,10 +7,11 @@ const app = {
 
         var userId = '';
         var userData = dataTable.row('.selected').data();
+        var that = this;
         if (userData) {
-            userId = userData[0];
+            userId = parseFloat(userData[0]);
         }
-        
+       
 
         var name = document.getElementById("fullname").value;
         var username = document.getElementById("userName").value;
@@ -18,10 +19,9 @@ const app = {
         var email = document.getElementById("email").value;
         var comment = document.getElementById("comment").value;
 
-        
-        var that = this;
-        var data = {
-            UserId:userId,
+        var data =
+        {
+            Id:userId,
             FullName: name,
             UserName: username,
             Password: password,
@@ -29,15 +29,36 @@ const app = {
             Comment: comment
         }
 
+        if (userData) {
+           
+            axios.post('https://localhost:44327/User/UpdateUser', data)
+                .then(function (response) {
+                    console.log(response.data);
+
+                })
+                .catch(function (error) {
+                });
+        }
+
+        else {
+
+            axios.post('https://localhost:44327/User/InsertUser', data)
+                .then(function (response) {
+                    console.log(response.data);
+
+                })
+                .catch(function (error) {
+                });
+        }
+
+
+
+       
         
 
-        axios.post('https://localhost:44327/User/InsertUser', data)
-        .then(function (response) {
-            console.log(response.data);           
-            
-        })
-        .catch(function (error) {
-        });
+        
+
+        
 
         
        
