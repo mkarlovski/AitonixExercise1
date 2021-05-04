@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UserCRUD.Models;
 
 namespace UserCRUD.Controllers
 {
@@ -103,8 +104,8 @@ namespace UserCRUD.Controllers
         {
             App_Helpers.JsonResponse jResponse = new App_Helpers.JsonResponse();
 
-            if (ModelState.IsValid) 
-            {
+            //if (ModelState.IsValid) 
+            //{
                 List<Models.User> UserList = new List<Models.User>();
                 if (Session["UserList"] != null) UserList = (List<Models.User>)Session["UserList"];
 
@@ -146,8 +147,7 @@ namespace UserCRUD.Controllers
                 jResponse.data = _User;
 
                 
-            }
-            //return RedirectToAction("Index");
+            
             return Json(jResponse, JsonRequestBehavior.AllowGet);
         }
 
@@ -215,5 +215,64 @@ namespace UserCRUD.Controllers
 
             return Json(jResponse, JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpGet]
+        public ActionResult GetLast10Users()
+        {
+            App_Helpers.JsonResponse jResponse = new App_Helpers.JsonResponse();
+            List<Models.User> UserList = new List<Models.User>();
+            List<Models.User> last10Users = new List<Models.User>();
+            if (Session["UserList"] != null)
+            {
+                UserList = (List<Models.User>)Session["UserList"];
+
+                 last10Users = UserList.OrderByDescending(x => x.RegisteredAt).Take(10).ToList();
+                jResponse.status = true;
+                jResponse.message = "OK";
+                jResponse.data = last10Users;
+            }
+            else
+            {
+                jResponse.status = false;
+                jResponse.message = "no users to display";
+                jResponse.data ="";
+
+            }
+
+            return Json(jResponse, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpGet]
+        public ActionResult GetUsersByTime(TimeModel timespan)
+        {
+            App_Helpers.JsonResponse jResponse = new App_Helpers.JsonResponse();
+            List<Models.User> UserList = new List<Models.User>();
+            List<Models.User> UsersTimeSpan = new List<Models.User>();
+            if (Session["UserList"] != null)
+            {
+                UserList = (List<Models.User>)Session["UserList"];
+
+                UsersTimeSpan = UserList.Where(x => (x.RegisteredAt >= timespan.DateFrom) && (x.RegisteredAt < timespan.DateTo)).ToList();
+                if (UsersTimeSpan != null)
+                {
+                    jResponse.status = true;
+                    jResponse.message = "OK";
+                    jResponse.data = UsersTimeSpan;
+                }
+               
+            }
+            else
+            {
+                jResponse.status = false;
+                jResponse.message = "no users to display";
+                jResponse.data = "";
+
+            }
+
+            return Json(jResponse, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

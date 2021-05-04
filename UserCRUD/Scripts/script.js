@@ -29,6 +29,8 @@ const app = {
             Comment: comment
         }
 
+        var data2 = ["0",name, username, password, email, comment];
+
         if (userData) {
            
             axios.post('https://localhost:44327/User/UpdateUser', data)
@@ -45,7 +47,9 @@ const app = {
             axios.post('https://localhost:44327/User/InsertUser', data)
                 .then(function (response) {
                     console.log(response.data);
-
+                    var newId = response.data.data.Id;
+                    var data2 = [newId, name, username, password, email, comment];
+                    that.addRow(dataTable, data2);
                 })
                 .catch(function (error) {
                 });
@@ -67,9 +71,9 @@ const app = {
         const addedRow = dataTable.row.add(data).draw();
         addedRow.show().draw(false);
 
-        const addedRowNode = addedRow.node();
-        console.log(addedRowNode);
-        $(addedRowNode).addClass('highlight');
+        //const addedRowNode = addedRow.node();
+        //console.log(addedRowNode);
+        //$(addedRowNode).addClass('highlight');
     },
     selectRow(dataTable) {
         if ($(this).hasClass('selected')) {
