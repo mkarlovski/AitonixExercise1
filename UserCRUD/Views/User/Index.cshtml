@@ -14,8 +14,11 @@
         Realtime Data Table
     </h2>
     <div class="col-md-7">
-        <button class="btn btn-danger" id="remove" disabled>
+        <button class="btn btn-danger" id="remove" title="delete User" disabled>
             <i class="glyphicon glyphicon-remove"></i>
+        </button>
+        <button class="btn btn-danger" id="update" title="update User" disabled>
+            <i class="glyphicon glyphicon-upload" ></i>
         </button>
         <table id="realtime" class="display" width="100%"></table>
     </div>
@@ -23,11 +26,11 @@
         <h3 class="text-left">Create New User</h3>
         @*<form action="/User/InsertUser" method="post">*@
             <div class="form-group">
-                <label for="fullName"> FullName</label>
+                <label for="fullname"> Full Name</label>
                 <input type="text" name="FullName" id="fullname" placeholder="FullName" class="form-control">
             </div>
             <div class="form-group">
-                <label for="userName"> UserName</label>
+                <label for="userName"> User Name</label>
                 <input type="text" name="UserName" id="userName" placeholder="UserName" class="form-control">
             </div>
             <div class="form-group">

@@ -71,6 +71,7 @@ namespace UserCRUD.Controllers
             return Json(jResponse, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
         public ActionResult GetUser(long Id)
         {
             App_Helpers.JsonResponse jResponse = new App_Helpers.JsonResponse();
@@ -112,7 +113,16 @@ namespace UserCRUD.Controllers
                 if (_User == null)
                 {
                     _User = new Models.User();
-                    _User.Id = UserList.LastOrDefault().Id + 1;
+
+                    if (UserList.Any())
+                    {
+                        _User.Id = UserList.LastOrDefault().Id + 1;
+                    }
+                    else
+                    {
+                        _User.Id = 1001;
+                    }
+                    
                     _User.FullName = User.FullName;
                     _User.UserName = User.UserName;
                     _User.Password = User.Password;
@@ -141,6 +151,7 @@ namespace UserCRUD.Controllers
             return Json(jResponse, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPut]
         public ActionResult UpdateUser(Models.User User)
         {
             App_Helpers.JsonResponse jResponse = new App_Helpers.JsonResponse();

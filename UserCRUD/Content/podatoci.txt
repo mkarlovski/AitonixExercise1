@@ -7,3 +7,6 @@
 {"Id":1004,"FullName":"User 4aaaa","UserName":"user1004","Password":"P@$$w0rd1004","Email":"user1004@crud.mk","RegisteredAt":"\/Date(1619507374234)\/","Comment":"..."}
 ]
 }
+
+{"status":true,"message":"OK",
+"data":{"Id":1001,"FullName":"User 1aaaa","UserName":"user1001","Password":"P@$$w0rd1001","Email":"user1001@crud.mk","RegisteredAt":"\/Date(1619984496562)\/","Comment":"..."}}
