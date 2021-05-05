@@ -27,7 +27,7 @@ namespace UserCRUD.Controllers
                 User.UserName = "user1001";
                 User.Password = "P@$$w0rd1001";
                 User.Email = "user1001@crud.mk";
-                User.RegisteredAt = DateTime.Now;
+                User.RegisteredAt = DateTime.Now.AddDays(4);
                 User.Comment = "...";
                 UserList.Add(User);
 
@@ -37,7 +37,7 @@ namespace UserCRUD.Controllers
                 User.UserName = "user1002";
                 User.Password = "P@$$w0rd1002";
                 User.Email = "user1002@crud.mk";
-                User.RegisteredAt = DateTime.Now;
+                User.RegisteredAt = DateTime.Now.AddDays(2);
                 User.Comment = "...";
                 UserList.Add(User);
 
@@ -244,7 +244,7 @@ namespace UserCRUD.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult GetUsersByTime(TimeModel timespan)
         {
             App_Helpers.JsonResponse jResponse = new App_Helpers.JsonResponse();

@@ -177,21 +177,22 @@ const app = {
             });
 
     },
-    searchByDate() {
+    searchByDate(dateFrom,dateTo) {
         var that = this;
         var datasetArray = [] 
         var dateFrom = document.getElementById("dateFrom").value;
+        //dateFrom=Date.parse
         var dateTo = document.getElementById("dateTo").value;
 
         console.log(dateFrom, dateTo);
-        data =
-        {
+        data = {
+
             DateFrom: dateFrom,
             DateTo: dateTo
         }
 
         var route = "https://localhost:44327/User/GetUsersByTime";
-        axios.get(route,data)
+        axios.post(route,data)
 
             .then(function (response) {
                 console.log(response.data);
@@ -267,11 +268,13 @@ const app = {
 
         $('#update').on('click', this.updateUser.bind(this, dataTable));
 
-        $('#searchByDate').on('click', function (e) {
-            e.preventDefault();
-            self.searchByDate();
-        }
-        )
+        //$('#searchByDate').on('click', function (e) {
+        //    e.preventDefault();
+        //    var dateFrom = document.getElementById("dateFrom").value;
+        //    var dateTo = document.getElementById("dateTo").value;
+        //    self.searchByDate(dateFrom, dateTo);
+        //}
+        //)
         
     }
     
