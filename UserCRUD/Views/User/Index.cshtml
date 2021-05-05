@@ -18,13 +18,25 @@
             <i class="glyphicon glyphicon-remove"></i>
         </button>
         <button class="btn btn-danger" id="update" title="update User" disabled>
-            <i class="glyphicon glyphicon-upload" ></i>
+            <i class="glyphicon glyphicon-upload"></i>
         </button>
+        <button class="btn btn-primary" id="last10user" enabled>
+            Get Last 10 Users
+        </button>
+        <button class="btn btn-primary" id="showAll" enabled>
+            Show All
+        </button>
+
+
+
+
         <table id="realtime" class="display" width="100%"></table>
+
+
     </div>
     <div class="col-md-4 col-md-offset-1">
         <h3 class="text-left">Create/Edit User</h3>
-        @*<form action="/User/InsertUser" method="post">*@
+       
             <div class="form-group">
                 <label for="fullname"> Full Name</label>
                 <input type="text" name="FullName" id="fullname" placeholder="FullName" class="form-control">
@@ -47,45 +59,41 @@
             </div>
             <div class="form-group">
                 <button class="btn btn-info" id="add">Add</button>
-            </div>
-        @*</form>*@
+            </div>   
     </div>
+
     <div class="row">
-        <div class="col-md-5 ">
+        <div class="col-md-5" >
             <div id="searchByDate">
                 <h4 class="text-left">Search By Date</h4>
-                <div class="form-group">
-                    <label for="dateFrom">Date From</label>
-                    <input type="date" name="DateFrom" id="dateFrom" placeholder="Date From" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label for="dateTo">Date To</label>
-                    <input type="date" name="DateTo" id="dateTo" placeholder="Date To" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-info" id="searchByDate">Search</button>
-                </div>
-            </div>
-            
+                <form>
+                    <div class="form-group">
+                        <label for="dateFrom">Date From</label>
+                        <input type="datetime" name="DateFrom" id="dateFrom" placeholder="Date From" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateTo">Date To</label>
+                        <input type="datetime" name="DateTo" id="dateTo" placeholder="Date To" class="form-control"  />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-info" id="searchByDate">Search</button>
+                    </div>
+                </form>
+                
+                
+
+            </div> 
         </div>
     </div>
 </div>
 
 
-
-
-
-
-
-
     @section Scripts {
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
-        
         <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/plug-ins/1.10.15/api/row().show().js"></script>
-        @*<script src="~/Scripts/data.js"></script>*@
-        @*<script src="~/Scripts/windowsSet.js"></script>*@
         <script src="~/Scripts/script.js"></script>
     }
 

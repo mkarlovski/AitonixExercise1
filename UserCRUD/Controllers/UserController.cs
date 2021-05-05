@@ -255,13 +255,20 @@ namespace UserCRUD.Controllers
                 UserList = (List<Models.User>)Session["UserList"];
 
                 UsersTimeSpan = UserList.Where(x => (x.RegisteredAt >= timespan.DateFrom) && (x.RegisteredAt < timespan.DateTo)).ToList();
-                if (UsersTimeSpan != null)
+                if (UsersTimeSpan.Count != 0)
                 {
                     jResponse.status = true;
                     jResponse.message = "OK";
                     jResponse.data = UsersTimeSpan;
                 }
-               
+                else
+                {
+                    jResponse.status = false;
+                    jResponse.message = "no users to display";
+                    jResponse.data = "";
+
+                }
+
             }
             else
             {

@@ -10,6 +10,7 @@ const app = {
         var that = this;
         if (userData) {
             userId = parseFloat(userData[0]);
+            console.log(userId)
         }
        
 
@@ -37,6 +38,9 @@ const app = {
                 .then(function (response) {
                     console.log(response.data);
 
+                    var data2 = [userId, name, username, password, email, comment];
+                    that.addRow(dataTable, data2);
+                    that.clearForm();
                 })
                 .catch(function (error) {
                 });
@@ -53,28 +57,15 @@ const app = {
                 })
                 .catch(function (error) {
                 });
-        }
-
-
-
-       
-        
-
-        
-
-        
-
-        
-       
+        }    
     },
+
     addRow(dataTable, data) {
         const addedRow = dataTable.row.add(data).draw();
         addedRow.show().draw(false);
-
-        //const addedRowNode = addedRow.node();
-        //console.log(addedRowNode);
-        //$(addedRowNode).addClass('highlight');
+     
     },
+
     selectRow(dataTable) {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -87,11 +78,11 @@ const app = {
             $('#update').removeAttr("disabled");
         }
     },
+
     removeRow(dataTable) {
         
         var userData = dataTable.row('.selected').data();
-        
-        
+     
         var userId = parseFloat(userData[0]);
       
         axios.post('https://localhost:44327/User/DeleteUser/' + userId)
@@ -113,24 +104,19 @@ const app = {
 
         var userData = dataTable.row('.selected').data();
         var userId = parseFloat(userData[0]);
-        
-
-        var route = "https://localhost:44327/User/GetUser/" + userId;
-
-        axios.get(route)
     
+        var route = "https://localhost:44327/User/GetUser/" + userId;
+        axios.get(route)
+   
             .then(function (response) {
-
-              
                 console.log(response.data);
                 that.fillUserForm(response.data.data)
             })
             .catch(function (error) {
             });
 
-
-
     },
+
     fillUserForm(data) {
         var fullName = document.getElementById("fullname");
         fullName.value = data.FullName;
@@ -147,6 +133,86 @@ const app = {
         var comment = document.getElementById("comment");
         comment.value = data.Comment;
     },
+    clearForm() {
+        var fullName = document.getElementById("fullname");
+        fullName.value = null;
+
+        var userName = document.getElementById("userName")
+        userName.value = null;
+
+        var password = document.getElementById("password");
+        password.value =null;
+
+        var email = document.getElementById("email");
+        email.value = null;
+
+        var comment = document.getElementById("comment");
+        comment.value = null;
+    },
+    getLast10Users()
+    {
+        console.log("I am Here")
+        var datasetArray = []
+        var that = this;
+        axios.get('https://localhost:44327/User/GetLast10Users')
+            .then(function (response) {
+
+                response.data.data.forEach(user => {
+                    var userData = [];
+                    var userID = user.Id.toString();
+                    userData.push(userID);
+                    userData.push(user.FullName);
+                    userData.push(user.UserName);
+                    userData.push(user.Password);
+                    userData.push(user.Email);
+                    userData.push(user.Comment);
+                    datasetArray.push(userData);
+
+                });
+
+                that.initDataTable(datasetArray)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    },
+    searchByDate() {
+        var that = this;
+        var datasetArray = [] 
+        var dateFrom = document.getElementById("dateFrom").value;
+        var dateTo = document.getElementById("dateTo").value;
+
+        console.log(dateFrom, dateTo);
+        data =
+        {
+            DateFrom: dateFrom,
+            DateTo: dateTo
+        }
+
+        var route = "https://localhost:44327/User/GetUsersByTime";
+        axios.get(route,data)
+
+            .then(function (response) {
+                console.log(response.data);
+                response.data.data.forEach(user => {
+                    var userData = [];
+
+                    var userID = user.Id.toString();
+                    userData.push(userID);
+                    userData.push(user.FullName);
+                    userData.push(user.UserName);
+                    userData.push(user.Password);
+                    userData.push(user.Email);
+                    userData.push(user.Comment);
+                    datasetArray.push(userData);
+                });
+                    that.initDataTable(datasetArray)
+            })
+            .catch(function (error) {
+            });
+    },
+
     start() {
         var datasetArray = []              
         var that = this;
@@ -175,7 +241,8 @@ const app = {
     }, 
     initDataTable(dataSet) {
         const dataTable = $('#realtime').DataTable({    
-            
+            destroy: true,
+            //searching:false,
             data: dataSet,
             columns: [
                 { title: 'Id' },
@@ -190,24 +257,47 @@ const app = {
 
         $('#add').on('click', this.sendToServer.bind(this, dataTable));
         const self = this;
-        //var clickedUserId = '';
-        $('#realtime tbody').on('click', 'tr', function () {
-            //e.preventDefault();
-            self.selectRow.bind(this, dataTable)();
-            //var userId = $(this).find('td:eq(0)').text
+        
+        $('#realtime tbody').on('click', 'tr', function () {         
+            self.selectRow.bind(this, dataTable)();           
             clickedUser = $(this).find('td').first().text();
-           
- 
         });
-        $('#remove').on('click', this.removeRow.bind(this, dataTable)); 
-        $('#update').on('click', this.updateUser.bind(this,dataTable));
-       
 
+        $('#remove').on('click', this.removeRow.bind(this, dataTable)); 
+
+        $('#update').on('click', this.updateUser.bind(this, dataTable));
+
+        $('#searchByDate').on('click', function (e) {
+            e.preventDefault();
+            self.searchByDate();
+        }
+        )
+        
     }
     
+
 };
 
+$('#last10user').on('click', function (e) {
+    e.preventDefault();   
+    app.getLast10Users();
+      }
+)
 
+//$('#searchByDate').on('click', function (e) {
+//    //e.preventDefault();
+//    app.searchByDate();
+//}
+//)
+
+
+$('#showAll').on('click', function (e) {
+    e.preventDefault();    
+    app.start();
+}
+)
+
+    
 
 
 $(document).ready(() => app.start());
